@@ -1,32 +1,32 @@
 import os
 
 class Movies:
-    def _init_(self, name, description, duration, synopsis):
+    def __init__(self, name, description, duration, synopsis):
         self.name = name
         self.description = description
         self.duration = duration
         self.synopsis = synopsis
 
 class Sessions:
-    def _init_(self):
+    def __init__(self):
         self._name = None
         self._seat_number = 0
         self._tax = 0
         self._brindes = {}
         self._movie = None
         self._value= 0
-    
+
 
     def agendar_session(self, date, hour, value, movie):
         self._date = date
         self._hour = hour
         self._value = value
         self._movie = movie
-    
+
 
     def set_name(self , name):
        self._name = name
-    
+
     def get_name(self):
         return self._name
 
@@ -45,7 +45,7 @@ class Sessions:
     def set_brindes(self, brindes):
         self._brindes = brindes
 
-  
+
 
     def get_seat_number(self):
         return self._seat_number
@@ -55,7 +55,7 @@ class Sessions:
 
     def get_brindes(self):
         return self._brindes
-   
+
     @staticmethod
     def get_session_basic ():
       sessions_basic = Sessions()
@@ -65,7 +65,7 @@ class Sessions:
       sessions_basic.set_brindes({ 'Bonequinhos':0 ,  ' pipoca': 0 , 'Refrigerante':0 , "chocolate":0})
       return sessions_basic
 
-    @staticmethod  
+    @staticmethod
     def get_session_XD ():
       sessions_XD = Sessions()
       sessions_XD.set_name("XD")
@@ -95,7 +95,7 @@ class Sessions:
 
 
 class Bilheteria:
-    def _init_(self):
+    def __init__(self):
         self.session_basic = Sessions.get_session_basic()
         self.session_XD = Sessions.get_session_XD()
         self.session_Super = Sessions.get_session_Super()
@@ -111,7 +111,7 @@ class Bilheteria:
         self.numero_de_cadeiras_vendidas_Super = 0
         self.numero_de_cadeiras_vendidas_Luxo = 0
 
-       
+
         self.MontarCadeiras()
 
     def MontarCadeiras(self):
@@ -135,7 +135,7 @@ class Bilheteria:
                 os.system('cls')
                 self.MostrarCadeiras( self.cadeira_session_basic)
 
-        
+
         if session_name == "XD":
 
             if self.cadeira_session_XD[cadeira] == "|X|":
@@ -151,9 +151,9 @@ class Bilheteria:
                 os.system('cls')
                 self.MostrarCadeiras( self.cadeira_session_XD)
 
-        
+
         if session_name == "Super":
-           
+
 
             if self.cadeira_session_Super[cadeira] == "|X|":
                 print("Cadeira já vendida.")
@@ -168,7 +168,7 @@ class Bilheteria:
                 os.system('cls')
 
                 self.MostrarCadeiras(self.cadeira_session_Super)
-        
+
         if session_name == "Luxo":
             if self.cadeira_session_Luxo[cadeira] == "|X|":
                 print("Cadeira já vendida.")
@@ -183,8 +183,8 @@ class Bilheteria:
                 os.system('cls')
                 self.MostrarCadeiras( self.cadeira_session_Luxo)
 
-  
-       
+
+
 
     def MostrarCadeiras(self, cadeiras):
         for i, (chave, valor) in enumerate(cadeiras.items(), 1):
@@ -192,7 +192,7 @@ class Bilheteria:
 
 
 class CineBCtec:
-    def _init_(self):
+    def __init__(self):
         self.Bilheteria = Bilheteria()
         self.cadastrada = {
             1: False,
@@ -215,14 +215,14 @@ class CineBCtec:
                 print(f"{num} - Nome: {sala['Nome']}, Numero de Cadeiras: {sala['Numero de Cadeiras']}, Porcentagem de acréscimo: {sala['Acréscimo']}, Brinde: {sala['Brinde']} - Não Cadastrada")
             else:
                 print(f"{num} - Nome: {sala['Nome']} - Sala Cadastrada ")
-    
+
     def cadastrar_sala(self, numero):
         if numero in self.salas:
             if(self.cadastrada[numero] == False):
                 self.cadastrada[numero] = True
                 date = input("Digite o dia:")
                 hour = input("Digite a hora:")
-                value = float(input("Digite o preço do ingresso: "))        
+                value = float(input("Digite o preço do ingresso: "))
                 movie = input("Digite o nome do filme:")
 
                 if(numero == 1):
@@ -237,7 +237,7 @@ class CineBCtec:
                         self.Bilheteria.session_Super.agendar_session(date, hour, value, movie)
                         filme = self.Bilheteria.session_Super.get_movie()
                         valor = self.Bilheteria.session_Super.get_value() * (1+ self.Bilheteria.session_Super.get_tax())
-                elif(numero == 4):   
+                elif(numero == 4):
                     self.Bilheteria.session_Luxo.agendar_session(date, hour, value, movie)
                     filme = self.Bilheteria.session_Luxo.get_movie()
                     valor = self.Bilheteria.session_Luxo.get_value() * (1 + self.Bilheteria.session_Luxo.get_tax())
@@ -246,14 +246,14 @@ class CineBCtec:
 
             print('\n\n')
             print(f"Sala {numero} cadastrada com sucesso!")
-           
+
             print(f"Filme: {filme} | Ingresso: R$ {valor:.2f}")
 
             print('\n\n')
 
 
-            
-                     
+
+
         else:
             print("Número de sala inválido!")
 
@@ -264,7 +264,7 @@ class CineBCtec:
               self.mostrar_salas()
 
               sala_selecionada = int(input("Selecione uma sala CADASTRADA para Vender os Ingressos ou  Digite Zero para Sair "))
-             
+
               if sala_selecionada == 1:
                   if(self.cadastrada[sala_selecionada] == True):
                      cadeira = int(input("Escolha o número da cadeira: "))
@@ -280,7 +280,7 @@ class CineBCtec:
                      nome_cliente = input("Digite o nome do cliente: ")
                      forma_pagamento = input("Digite a forma de pagamento (ex: Cartão, Dinheiro, Pix): ")
 
-                    
+
                      self.Bilheteria.VenderCadeira(cadeira, "XD", nome_cliente, forma_pagamento)
                   else:
                       print("Essa sala não foi definida")
@@ -290,7 +290,7 @@ class CineBCtec:
                      nome_cliente = input("Digite o nome do cliente: ")
                      forma_pagamento = input("Digite a forma de pagamento (ex: Cartão, Dinheiro, Pix): ")
 
-                     
+
                      self.Bilheteria.VenderCadeira(cadeira, "Super", nome_cliente, forma_pagamento)
                   else:
                       print("Essa sala não foi definida")
@@ -311,13 +311,13 @@ class CineBCtec:
             num = int(input("Digite o número da sala para cadastrar, ou zero para sair: "))
             if num == 0:
                 break
-            
+
             self.cadastrar_sala(num)
 
 
 
-    
- 
+
+
 
     def gerar_relatorios_vendas(self):
 
@@ -352,12 +352,12 @@ class CineBCtec:
             for brinde, quantidade in dados["Brindes vendidos"].items():
                 print(f"   - {brinde}: {quantidade * dados['Ingressos vendidos'] } unidades")
             print(f"Valor total arrecadado: R$ {dados['Valor total arrecadado']:.2f}")
-            print("-" * 40)  
-
-          
+            print("-" * 40)
 
 
-            
+
+
+
     def run(self):
         print("Bem-vindo ao sistema CineBCTEC")
         self.definir_sessoes()
@@ -385,11 +385,11 @@ class CineBCtec:
             else:
                 print("Opção inválida, tente novamente.")
 
-       
-            
+
+
         print("Sistema encerrado!")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     Cinema = CineBCtec()
     Cinema.run()
